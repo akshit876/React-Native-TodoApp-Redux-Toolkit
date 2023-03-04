@@ -1,5 +1,5 @@
 # Todo App
-It's simple Todo App using Redux Toolkit as state management.
+It's a simple Todo App using Redux Toolkit as state management.
     
 ## Built With
 

@@ -1,5 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {Todo} from '../../interfaces/interface';
+import {fetchApiData} from '../fakeAPI';
 
 //* Initial State
 /* const initialState: Todo[] = [
@@ -36,8 +37,30 @@ export const todosSlice = createSlice({
     //* Toggle Todo
     toggleTodo: (state, action) => {
       const todo = state.find(todo => todo.id === action.payload);
-      if (todo) todo.isComplete = !todo.isComplete;
+      if (todo) {
+        todo.isComplete = !todo.isComplete;
+      }
     },
+  },
+  extraReducers: builder => {
+    builder
+      .addCase(fetchApiData.pending, state => {})
+      .addCase(fetchApiData.fulfilled, (state, action) => {
+        console.log({state});
+        state.push(
+          ...action.payload.map(d => {
+            return {
+              id: d.id,
+              name: d.title,
+              isComplete: false,
+            };
+          }),
+        );
+      })
+      .addCase(fetchApiData.rejected, (state, action) => {
+        state = [];
+        // state.error = action.error.message;
+      });
   },
 });
 
